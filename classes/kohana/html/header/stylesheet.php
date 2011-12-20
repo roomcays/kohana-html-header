@@ -44,6 +44,7 @@ class Kohana_HTML_Header_Stylesheet {
 		{
 			$html .= "<![endif]-->";
 		}
+
 		return $html;
 	}
 }

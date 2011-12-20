@@ -34,6 +34,9 @@ class Kohana_HTML_Header_Favicon {
 
 	public function __toString()
 	{
-		return "<link ".HTML::attributes($this->attributes)." />";
+		$regular_browser = " <!--[if !IE]>< --><link ".HTML::attributes($this->attributes)." /><!-- ><![endif]-->";
+		$this->attributes['rel'] = 'shortcut icon';
+		$ie = "<!--[if IE]><link ".HTML::attributes($this->attributes)." /><![endif]-->";
+		return $regular_browser."\n".$ie;
 	}
 }

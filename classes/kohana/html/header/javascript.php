@@ -11,8 +11,9 @@ class Kohana_HTML_Header_Javascript {
 		$file = NULL,
 		$attributes = array(),
 		$protocol = NULL,
-		$index = FALSE;
-			
+		$index = FALSE,
+		$conditional = NULL;
+
 	public function __construct($file)
 	{
 		if (is_array($file))
@@ -21,6 +22,7 @@ class Kohana_HTML_Header_Javascript {
 			$this->attributes = Arr::get($file, 'attributes');
 			$this->protocol = Arr::get($file, 'protocol');
 			$this->index = Arr::get($file, 'index');
+			$this->conditional = Arr::get($file, 'conditional');
 		}
 		else
 		{
@@ -30,6 +32,18 @@ class Kohana_HTML_Header_Javascript {
 
 	public function __toString()
 	{
-		return HTML::script($this->file, $this->attributes, $this->protocol, $this->index);
+		$html = "";
+		if ( ! empty($this->conditional))
+		{
+			$html .= "<!--[if ".$this->conditional."]>\n";
+		}
+
+		$html .= HTML::script($this->file, $this->attributes, $this->protocol, $this->index)."\n";
+
+		if ( ! empty($this->conditional))
+		{
+			$html .= "<![endif]-->";
+		}
+		return $html;
 	}
 }
