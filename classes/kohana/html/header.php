@@ -64,9 +64,11 @@ class Kohana_HTML_Header {
 		switch ($item)
 		{
 			case is_array($item):
+				$i = 0;
 				foreach ($item as $_item)
 				{
-					$this->add($_item, $reset);
+					$this->add($_item, ($i == 0) ? $reset : FALSE);
+					$i++;
 				}
 				break;
 			case $item instanceof Html_Header_Stylesheet:
