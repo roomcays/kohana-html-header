@@ -25,6 +25,7 @@ template or other view.
 			$this->html_header->add(new HTML_Header_Stylesheet(array('file' => 'stylesheet.css'));
 			$this->html_header->add(new HTML_Header_Stylesheet(array('file' => 'stylesheet_ie7.css', 'conditional' => 'lt IE 8'));
 			$this->html_header->add(new HTML_Header_Javascript(array('file' => 'jquery.js')));
+			$this->html_header->add(new HTML_Header_Javascript(array('file' => 'footer_scripts.js', TRUE)));
 			$this->html_header->add(new HTML_Header_Meta('keywords', 'Awesome, kohana, KO3'));
 			$this->html_header->add(new HTML_Header_Meta('description', 'This page shows how to be awesome'));
 
