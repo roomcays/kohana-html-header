@@ -16,6 +16,7 @@ class Kohana_HTML_Header {
 		$meta = array(),
 		$stylesheets = array(),
 		$javascripts = array(),
+		$javascripts_footer = array(),
 		$favicons = array();
 
 	protected static $instance = NULL;
@@ -101,7 +102,14 @@ class Kohana_HTML_Header {
 				return ($reset) ? $this->stylesheets = array($item) : array_push($this->stylesheets, $item);
 				break;
 			case $item instanceof Html_Header_Javascript:
-				return ($reset) ? $this->javascripts = array($item) : array_push($this->javascripts, $item);
+				if (isset($item->footer_script) && ! empty($item->footer_script))
+				{
+					return ($reset) ? $this->javascripts_footer = array($item) : array_push($this->javascripts_footer, $item);
+				}
+				else
+				{
+					return ($reset) ? $this->javascripts = array($item) : array_push($this->javascripts, $item);
+				}
 				break;
 			case $item instanceof Html_Header_Meta:
 				return ($reset) ? $this->meta = array($item) : array_push($this->meta, $item);
@@ -145,7 +153,7 @@ class Kohana_HTML_Header {
 				->set('favicons', $this->favicons)
 				->set('stylesheets', $this->stylesheets)
 				->set('javascripts', $this->javascripts);
-			
+
 			return $view;
 		}
 		catch (Exception $e)
@@ -276,6 +284,19 @@ class Kohana_HTML_Header {
 			}
 			return ($i == 0) ? $this->set($meta_item) : $this->meta;
 		}
+	}
 
+	public function get_javascripts_footer($rendered = FALSE)
+	{
+		if ($rendered)
+		{
+			$html = "";
+			foreach($this->javascripts_footer as $javascript_footer)
+			{
+				$html .= $javascript_footer;
+			}
+			return $html;
+		}
+		return $this->javascripts_footer;
 	}
 }

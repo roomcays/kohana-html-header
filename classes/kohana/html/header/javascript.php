@@ -15,8 +15,16 @@ class Kohana_HTML_Header_Javascript {
 		$index = FALSE,
 		$conditional = NULL;
 
-	public function __construct($file)
+	public $footer_script = FALSE;
+
+	/**
+	 * @param $file
+	 * @param bool $footer_script Set to TRUE to call this script at the end of document
+	 */
+	public function __construct($file, $footer_script = FALSE)
 	{
+		$this->footer_script = (bool) $footer_script;
+
 		if (is_array($file))
 		{
 			$this->file = Arr::get($file, 'file');
