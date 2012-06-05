@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 /**
  * A single javascript entity for HTML Header
- * @author Maciej Kwiatkowski <maciek@unicorn.net.pl>
+ * @author Maciej Kwiatkowski <maciej.kwiatkowski@unicorn.net.pl>
  * @package Super Kohana
  * @category HTML Header
  */

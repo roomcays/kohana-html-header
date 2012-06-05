@@ -1,7 +1,8 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 /**
  * A single javascript entity for HTML Header
- * @author Maciej Kwiatkowski <maciek@unicorn.net.pl>
+ * @author Maciej Kwiatkowski <maciej.kwiatkowski@unicorn.net.pl>
+ * @author Wojciech Duda <wduda@unicorn.net.pl>
  * @package Super Kohana
  * @category HTML Header
  */
@@ -36,5 +37,13 @@ class Kohana_HTML_Header_Meta {
 	public function __toString()
 	{
 		return "<meta".HTML::attributes($this->attributes)." />";
+	}
+
+	public function attribute($name)
+	{
+		if (isset($this->attributes[$name]))
+			return $this->attributes[$name];
+
+		return FALSE;
 	}
 }
