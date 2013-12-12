@@ -82,11 +82,12 @@ class Kohana_HTML_Header {
 	/**
 	 * Adds an item to the header object.
 	 * 
-	 * @param mixed	$item	The item to be added
-	 * @param bool	$reset	Reset (empty) the array of the item type before adding
-	 * @return int|null 	Number of elements of given type after adding
+	 * @param mixed	$item	    The item to be added
+	 * @param bool	$reset	    Reset (empty) the array of the item type before adding
+	 * @param bool	$prepend    Set this to TRUE if you want to add new item at the beginning of the list
+	 * @return int|null 	    Number of elements of given type after adding
 	 */
-	public function add($item, $reset = FALSE)
+	public function add($item, $reset = FALSE, $prepend = FALSE)
 	{
 		switch ($item)
 		{
@@ -99,28 +100,33 @@ class Kohana_HTML_Header {
 				}
 				break;
 			case $item instanceof Html_Header_Stylesheet:
-				return ($reset) ? $this->stylesheets = array($item) : array_push($this->stylesheets, $item);
+				return ($reset) ? $this->stylesheets = array($item) : ($prepend) ? array_unshift($this->stylesheets, $item) : array_push($this->stylesheets, $item);
 				break;
 			case $item instanceof Html_Header_Javascript:
 				if (isset($item->footer_script) && ! empty($item->footer_script))
 				{
-					return ($reset) ? $this->javascripts_footer = array($item) : array_push($this->javascripts_footer, $item);
+					return ($reset) ? $this->javascripts_footer = array($item) : ($prepend) ? array_unshift($this->javascripts_footer, $item): array_push($this->javascripts_footer, $item);
 				}
 				else
 				{
-					return ($reset) ? $this->javascripts = array($item) : array_push($this->javascripts, $item);
+					return ($reset) ? $this->javascripts = array($item) : ($prepend) ? array_unshift($this->javascripts, $item) : array_push($this->javascripts, $item);
 				}
 				break;
 			case $item instanceof Html_Header_Meta:
-				return ($reset) ? $this->meta = array($item) : array_push($this->meta, $item);
+				return ($reset) ? $this->meta = array($item) : ($prepend) ? array_unshift($this->meta, $item) : array_push($this->meta, $item);
 				break;
 			case $item instanceof Html_Header_Favicon:
-				return ($reset) ? $this->favicons = array($item) : array_push($this->favicons, $item);
+				return ($reset) ? $this->favicons = array($item) : ($prepend) ? array_unshift($this->favicons, $item) : array_push($this->favicons, $item);
 				break;
 			default:
 				$this->resolve_unknown_type($item, $reset);
 				break;
 		}
+	}
+
+	public function prepend($item, $reset = FALSE)
+	{
+		$this->add($item, $reset, TRUE);
 	}
 
 	/**
