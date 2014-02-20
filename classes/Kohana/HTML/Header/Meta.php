@@ -23,7 +23,7 @@ class Kohana_HTML_Header_Meta {
 		{
 			$this->attributes = $name;
 		}
-		else if ( ! empty($content))
+		else if ( ! empty($name))
 		{
 			$this->attributes['name'] = (string) $name;
 			$this->attributes['content'] = (string) $content;

@@ -5,18 +5,22 @@ if ( ! empty($title))
 }
 if ( ! empty($meta))
 {
-	foreach ($meta as $meta_item) echo $meta_item."\n";
+	foreach ($meta as $meta_item)
+		echo $meta_item."\n";
 }
 if ( ! empty($favicons))
 {
-	foreach ($favicons as $favicon) echo $favicon."\n";
+	foreach ($favicons as $favicon)
+		echo $favicon."\n";
 }
 if ( ! empty($stylesheets))
 {
-	foreach ($stylesheets as $stylesheet) echo $stylesheet."\n";
+	foreach ($stylesheets as $stylesheet)
+		echo $stylesheet."\n";
 }
 
 if ( ! empty($javascripts))
 {
-	foreach ($javascripts as $javascript) echo $javascript."\n";
+	foreach ($javascripts as $javascript)
+		echo $javascript."\n";
 }
