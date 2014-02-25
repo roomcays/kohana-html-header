@@ -15,17 +15,27 @@ class Kohana_HTML_Header_Javascript {
 		$index = FALSE,
 		$conditional = NULL;
 
+	/**
+	 * @var null|string|View
+	 */
+	protected $inline = NULL;
+
 	public $footer_script = FALSE;
 
 	/**
-	 * @param $file
+	 * @param string|array|View $file
 	 * @param bool $footer_script Set to TRUE to call this script at the end of document
+	 * @param bool $inline Set to TRUE for placing INLINE code instead of linking to a file. First argument becomes the text content in this case
 	 */
-	public function __construct($file, $footer_script = FALSE)
+	public function __construct($file, $footer_script = FALSE, $inline = FALSE)
 	{
 		$this->footer_script = (bool) $footer_script;
 
-		if (is_array($file))
+		if ($inline OR $file instanceof View)
+		{
+			$this->inline = $file;
+		}
+		elseif (is_array($file))
 		{
 			$this->file = Arr::get($file, 'file');
 			$this->attributes = Arr::get($file, 'attributes');
@@ -47,7 +57,10 @@ class Kohana_HTML_Header_Javascript {
 			$html .= "<!--[if ".$this->conditional."]>\n";
 		}
 
-		$html .= HTML::script($this->file, $this->attributes, $this->protocol, $this->index)."\n";
+		if (isset($this->inline))
+			$html .= "<script type='text/javascript'>/* <![CDATA[ */".$this->inline."/* ]]> */</script>\n";
+		else
+			$html .= HTML::script($this->file, $this->attributes, $this->protocol, $this->index)."\n";
 
 		if ( ! empty($this->conditional))
 		{

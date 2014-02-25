@@ -7,6 +7,7 @@
  */
 
 class Kohana_HTML_Header_Stylesheet {
+
 	protected
 		$file = NULL,
 		$attributes = array(),
@@ -14,9 +15,22 @@ class Kohana_HTML_Header_Stylesheet {
 		$index = FALSE,
 		$conditional = NULL;
 			
-	public function __construct($file)
+	/**
+	 * @var null|string|View
+	 */
+	protected $inline = NULL;
+
+	/**
+	 * @param string|array|View $file
+	 * @param bool $inline Set to TRUE for placing INLINE code instead of linking to a file. First argument becomes the text content in this case
+	 */
+	public function __construct($file, $inline = FALSE)
 	{
-		if (is_array($file))
+		if ($inline OR $file instanceof View)
+		{
+			$this->inline = $file;
+		}
+		elseif (is_array($file))
 		{
 			$this->file = Arr::get($file, 'file');
 			$this->attributes = Arr::get($file, 'attributes');
@@ -38,7 +52,10 @@ class Kohana_HTML_Header_Stylesheet {
 			$html .= "<!--[if ".$this->conditional."]>\n";
 		}
 		
-		$html .= HTML::style($this->file, $this->attributes, $this->protocol, $this->index)."\n";
+		if (isset($this->inline))
+			$html .= "<style type='text/css'>".$this->inline."</style>\n";
+		else
+			$html .= HTML::style($this->file, $this->attributes, $this->protocol, $this->index)."\n";
 		
 		if ( ! empty($this->conditional))
 		{
